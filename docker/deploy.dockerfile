@@ -37,7 +37,7 @@ ENV PYTHONUNBUFFERED=1
 #RUN export PATH=$PATH:/app/src/data && echo "export PATH=$PATH" >> /etc/bash.bashrc
 
 
-#CMD ["bash"]
+CMD ["bash"]
 #CMD ["uvicorn", "ml:app", "--host", "0.0.0.0", "--reload"]
 #CMD ["python", "app.py"]
-CMD ["python"]
+#CMD ["python"]
