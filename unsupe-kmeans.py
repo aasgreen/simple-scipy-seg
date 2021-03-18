@@ -13,10 +13,16 @@ from sklearn.cluster import AgglomerativeClustering
 import skimage.exposure
 from skimage.morphology import disk
 from skimage.transform import rescale
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("image", help="path to the image you want segmented")
+args = parser.parse_args()
+image = plt.imread(args.image)
 
 
-masks = pims.open('./data/seg/*.png')
-image = plt.imread('./data/seg/meat-label.png')
+#masks = pims.open('./data/*.png')
+#image = plt.imread('./data/meat-label.png')
 #display images so we know we have the right mask
 
 #lines = [plt.imshow(im) for im in masks[::-1]]
@@ -57,7 +63,8 @@ design_norm = scaler.fit_transform(design)
 design_norm_1 = design_norm
 kmeans_1 = KMeans(n_clusters = 4, random_state = 42).fit(design_norm_1)
 result = kmeans_1.labels_.reshape(image.shape[0], image.shape[1])
-plt.imshow(result, cmap = 'viridis')
+plt.imsave('/data/out/seg-out.png', result)
+#plt.imshow(result, cmap = 'viridis')
 
 
 #try agglomerative clustering

@@ -4,9 +4,11 @@ TAG				:= $$(git log -n 1 --pretty=format:%D ./docker/Dockerfile | grep -Po "(?<
 #REGISTRY		:= registry-1.docker.io
 USER 			:= aasgreen
 PROJECT			:= mlexflex-ml-scipy-demo
+DEPLOY			:= ${PROJECT}-deploy
 #REGISTRY_NAME	:= ${REGISTRY}/${PROJECT}/${IMG}
 
 IMG_WEB_SVC    		:= ${USER}/${PROJECT}:${TAG}
+IMG_DEPLOY_SVC    		:= ${USER}/${DEPLOY}
 IMG_WEB_SVC_JYP    		:= ${USER}/${PROJECT_JYP}:${TAG}
 #REGISTRY_WEB_SVC	:= ${REGISTRY}/${PROJECT}/${NAME_WEB_SVC}:${TAG}
 .PHONY:
@@ -19,11 +21,15 @@ test:
 
 build_docker: 
 	docker build -t ${IMG_WEB_SVC} ./docker
-	
+
+build_deploy:
+	docker build -t ${IMG_DEPLOY_SVC} -f ./docker/deploy.dockerfile ./docker
 
 run_docker:
 	docker run --shm-size=1g --ulimit memlock=-1 --ulimit stack=67108864 --memory-swap -1 -it -v ${PWD}:/app/work/ -v ${PWD}/../data:/app/data -p 8050:8050 --rm ${IMG_WEB_SVC}
 
+run_deploy:
+	docker run --shm-size=1g --ulimit memlock=-1 --ulimit stack=67108864 --memory-swap -1 -it -v ${PWD}:/app/work/ -v ${PWD}/../data:/app/data -p 8050:8050 --rm ${IMG_DEPLOY_SVC}
 deploy:
 	docker run --shm-size=1g --ulimit memlock=-1 --ulimit stack=67108864 --memory-swap -1 -d -v ${PWD}:/app/work/ -v ${PWD}/../data:/app/data -p 80:8050 ${IMG_WEB_SVC}
 clean: 
@@ -34,3 +40,6 @@ clean:
 
 push_docker:
 	docker push ${IMG_WEB_SVC}
+
+push_deploy:
+	docker push ${IMG_DEPLOY_SVC}
