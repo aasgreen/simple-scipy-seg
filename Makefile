@@ -22,7 +22,7 @@ build_docker:
 	
 
 run_docker:
-	docker run --shm-size=1g --ulimit memlock=-1 --ulimit stack=67108864 --memory-swap -1 -it -v ${PWD}:/app/work/ -v ${PWD}/../data:/app/data -p 8050:8050 ${IMG_WEB_SVC}
+	docker run --shm-size=1g --ulimit memlock=-1 --ulimit stack=67108864 --memory-swap -1 -it -v ${PWD}:/app/work/ -v ${PWD}/../data:/app/data -p 8050:8050 --rm ${IMG_WEB_SVC}
 
 deploy:
 	docker run --shm-size=1g --ulimit memlock=-1 --ulimit stack=67108864 --memory-swap -1 -d -v ${PWD}:/app/work/ -v ${PWD}/../data:/app/data -p 80:8050 ${IMG_WEB_SVC}
