@@ -46,7 +46,7 @@ image_sm = rescale(gaussian_filter(image, sigma = 2), .02, mode = 'reflect', ant
 #gradient_feature = image_grad.ravel()
 #entropy_feature = image_entropy.ravel()
 #blur_feature = image_blur.ravel()
-intesntiy_feature = image_sm.ravel()
+intensity_feature = image_sm.ravel()
 #first, create design matrix
 
 design = np.c_[intensity_feature]
