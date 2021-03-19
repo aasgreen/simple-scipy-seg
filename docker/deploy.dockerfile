@@ -19,6 +19,7 @@ RUN pip3 install --upgrade pip
 ENV PATH="/opt/venv/bin:$PATH"
 RUN pip3 install -r requirements.txt
 
+RUN ls
 RUN git clone https://github.com/aasgreen/simple-scipy-seg.git /app/work
 
 FROM python:3.7-slim as build-image
